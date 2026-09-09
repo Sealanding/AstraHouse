@@ -1,0 +1,1 @@
+"""Ten-round hackathon simulation."""

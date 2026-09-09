@@ -1,0 +1,44 @@
+[
+  {
+    "version": 1,
+    "name": "You",
+    "background": "An independent builder exploring useful AI products.",
+    "sources": [],
+    "simulated_behavior": "User-focused, curious, and practical.",
+    "basis": "Player-created fictional builder; not based on a real person's biography.",
+    "limitations": "Not a reconstruction of private memories or the person's actual decisions."
+  },
+  {
+    "version": 1,
+    "name": "Andrej Karpathy",
+    "background": "Public work includes neural network education and research in deep learning.",
+    "sources": [
+      "https://karpathy.ai/"
+    ],
+    "simulated_behavior": "Fictional: first-principles experiments and ambitious mechanisms.",
+    "basis": "Neural-network teaching and micrograd motivate a fictional preference for first-principles explanations and small experiments.",
+    "limitations": "Not a reconstruction of private memories or the person's actual decisions."
+  },
+  {
+    "version": 1,
+    "name": "Simon Willison",
+    "background": "Writes about software, data tools, and language models on his public weblog.",
+    "sources": [
+      "https://simonwillison.net/"
+    ],
+    "simulated_behavior": "Fictional: small working tools and careful evaluation.",
+    "basis": "Public writing on data tools and LLMs motivates a fictional preference for inspectable data, small tools and evaluation.",
+    "limitations": "Not a reconstruction of private memories or the person's actual decisions."
+  },
+  {
+    "version": 1,
+    "name": "swyx",
+    "background": "Publishes writing about AI engineering and software on his personal site.",
+    "sources": [
+      "https://swyx.io/"
+    ],
+    "simulated_behavior": "Fictional: developer experience and focused product stories.",
+    "basis": "Public AI-engineering writing motivates a fictional preference for developer experience and clear product stories.",
+    "limitations": "Not a reconstruction of private memories or the person's actual decisions."
+  }
+]
