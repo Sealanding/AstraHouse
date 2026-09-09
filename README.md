@@ -1,145 +1,90 @@
-# Throng City
+# Astro House
 
-Product direction: an [SF urban survival society](docs/ai-survival-direction.md), with San Francisco-inspired housing, food access and shared facilities, consequential survival in the spirit of Don't Starve, and Thronglets-inspired pixel presentation. The current playable build is the city prototype; the linked research and module plan distinguish proposed mechanics from implemented features.
+An AI hackathon you can step into. Direct one builder in a visual sandbox room while independent AI participants develop their own ideas, build project artifacts, and present their work to a panel of simulated judges.
 
-Throng City is a live 2D society simulation in which every yellow citizen has an independent memory, private perspective, self-chosen goal, and LLM decision loop. Citizens can only know what they personally experience, observe, overhear, or receive through a broadcast.
+**Five rounds. Independent builders. Visual pitch decks.**
 
-The world is authoritative: an LLM may choose any goal or say anything, but it can only affect physical reality through validated actions.
+## What you can do
 
-## What is playable
+- Explore the room, inspect builders, and follow each participant’s actions and decision summaries.
+- View professional context, game memories, project goals, artifacts, and state after each turn.
+- Add builders and judges using a LinkedIn profile. Public-source research generates their simulated profiles, with a visible 30-second countdown.
+- Inspect preset profile backups explaining the sources and fictional behavior behind each character.
+- Submit independent, project-specific decks with diagrams, interface wireframes, and evidence charts.
+- Read the final transcript with scores, judging rationales, and clickable deck links. Download slides as SVG or print decks to PDF.
+- Replay a completed match, or stop and restart while retaining your roster.
 
-- 12 independently scheduled citizens
-- Local vision and hearing with private memory delivery
-- Autonomous goals, values, relationships, work, housing, hunger, energy, and stress
-- Face-to-face conversation, overhearing, shouting, and citywide radio
-- Rent, eviction, job loss, shelter, public restrooms, street waste, and service reports
-- Player interventions: food, lightning, restrooms, fog, and unknown broadcasts
-- Click-only citizen inspector with private memories and self-expressed values
-- Objective city event feed and persistent SQLite event history
-- Real-time browser rendering with no game engine installation
-- OpenAI Astra mode, with a clearly labeled rule demo when no key is configured
-- Shops and scheduled free meal service, finite food stocks, portable goods and cooking
-- Timed work, cooking, cleaning, toilet use and indoor/outdoor rest with facility capacity
-- Vacant-bed rentals, bilateral roommate invitations, shared rent and a missed-rent warning
-- Fog exposure, wearable coats and usable route apps that improve travel speed
-- Citizen-founded companies with separate treasuries, product stock and real sales
-- Bilateral funding offers, counteroffers, consent, equity dilution and stale-term rejection
-- Accepted job offers, reserved production costs/payroll, wages paid only on completion
-- Founder-controlled prices and share-proportional cash distributions
-- City Life observer panel for facilities, company accounts and ownership
-- Editable 20-unit tiles: salvage materials, lay roads/floors, build walls or signs,
-  place gardens/benches/kitchens/toilets/shelters, and dismantle editable structures
-- Roads change travel speed; walls block movement; paths use each citizen's observed map
-- Built facilities are usable, gardens grow food, and locally read signs enter memory
+The challenge is **AI-first and open-ended**. Build a useful AI product in any domain. Blockchain and crypto are optional technology choices, never submission requirements or automatic scoring advantages.
 
 ## Run locally
 
-Install dependencies and start the server:
+Requires Python 3.12+ and [uv](https://docs.astral.sh/uv/).
 
-```sh
+```bash
 uv sync --dev
-uv run uvicorn app.main:app --reload
+uv run uvicorn app.hackathon.server:app --host 127.0.0.1 --port 8002
 ```
 
-Open [http://localhost:8000](http://localhost:8000).
+Open [http://127.0.0.1:8002](http://127.0.0.1:8002) and choose **Demo sandbox** to play without API credentials. Demo actions and judging are scripted.
 
-## Enable OpenAI Astra citizens
+### Enable live AI
 
-Create an API key at [platform.openai.com](https://platform.openai.com/), then configure the server:
+Copy the environment template:
 
-```sh
+```bash
 cp .env.example .env
 ```
 
-Set the key in `.env`:
+Set these values in `.env`, then restart the server:
 
 ```dotenv
 OPENAI_API_KEY=your_api_key_here
-OPENAI_MODEL=gpt-6-astra
+HACKATHON_MODEL=gpt-5.4-mini
 ```
 
-Restart the server. The header will display `ASTRA / LIVE` when real LLM decisions are active. API keys remain server-side and `.env` is excluded from git.
+Choose **Check model connection**, then **Fast model live**. Adding a person through public-profile research also requires live model access. API credentials remain on the server; `.env` is ignored by Git.
 
-Alternatively, configure `OPENAI_SECRET_ID` with the name of an AWS Secrets Manager secret containing an `OPENAI_API_KEY` field, and optionally `AWS_REGION`. The AWS CLI must already be authenticated. The credential is loaded into server memory and never sent to the browser.
+Each builder receives a separate request with its own context and the room’s public updates. Requests run with up to four concurrent calls by default. Each request has a **30-second total deadline**, including queueing and retries. A four-builder, five-judge game normally uses 25 model calls, plus connectivity checks, profile research, and retries.
 
-If an Astra request fails, the citizen waits and retries; it does not silently switch to scripted decisions. The header shows provider errors. Without a configured key, the app runs a clearly labeled rule demo that cannot interpret arbitrary broadcast language.
+## How to play
 
-Important broadcasts, direct speech and nearby interventions interrupt current travel and wake the affected citizens. Targeted actions retain their intent while approaching and execute on arrival. Full personal memory is passed to Astra, together with unread events and action instructions. Long-running experiments will eventually need an explicit context-budget policy.
+1. Customize the lobby: two to eight builders and one to eight judges. You control the first builder.
+2. Choose one action per round: **Research**, **Build**, **Test**, **Pitch**, or **Submit**. Rivals choose independently.
+3. Develop an idea and submit by the end of **round five**. Only the latest submitted version is judged.
+4. Explore scores, evidence, visual decks, and the complete transcript after judging.
 
-Overheard conversation is remembered without aborting every journey. Short physical tasks finish before replying to non-dangerous messages; attacks and lightning interrupt them and refund reserved resources. Basic body depletion is suspended while a citizen waits for its model decision. A simulation day lasts 720 seconds at 1x and begins at 08:00.
+The rubric is **technical difficulty 30%**, **originality 25%**, **AI centrality 30%**, and **judger taste 15%**.
 
-Economic mechanics are fictional. Companies currently make meals, coats or route apps; names, purposes and ambitions are agent-authored. There is no real money, external incorporation or investment execution. City-backed jobs and shop restocking are explicit background sources; the city ledger tracks credits entering or leaving the citizen/company economy. This is not a closed or calibrated model of SF's economy.
+Drag the room to pan and use the camera controls to zoom. Press **F** for focus mode, **Escape** to exit, or **1–5** to select a legal action. Shortcuts never confirm an action. A reduced-motion option is available.
 
-The current model of company governance gives founders control over pricing, new financing and cash distributions. Investors receive shares and proportional distributions, not a guaranteed return or governance votes. Production uses a simplified materials charge; broader manufacturing, loans, bankruptcy, secondary share trading and arbitrary new product mechanics are not implemented.
+## About the simulation
 
-## Controls
+Participants are fictional simulations inspired by public professional information, not representations of anyone’s private memories or actual opinions. Profiles distinguish sourced background from inferred game behavior.
 
-- Click a citizen to inspect its private perspective.
-- Drag the pixel map to pan; scroll or use the camera buttons to zoom. Click the percentage to fit the city.
-- Select **Drop food**, **Lightning**, or **Add restroom**, then click the map.
-- Lightning kills on a direct hit and injures citizens nearby, even while paused.
-- **Kill citizen** targets one living citizen. Death is permanent within this run;
-  click the remains to inspect their last recorded perspective.
-- **City Life** shows messages citizens choose to send you and an intervention
-  ledger separating memory delivery from subsequent decisions.
-- **Toggle fog** changes every citizen's effective sight range.
-- **Broadcast** injects a sourced claim into every living citizen's memory.
-- Pause or change world speed from the top toolbar.
-- Use **Build / edit** to paint terrain tiles as the observer. Keep clicking to build;
-  select **Demolish** to remove a tile, or press Escape to leave the brush.
+Project artifacts and assessments are simulated; the game does not execute generated code or deploy applications. The deck’s interactive workspace is a local UI prototype. Project-specific AI functions remain specifications.
 
-Citizens use the same terrain engine through `salvage`, `build` and `demolish`, with
-material costs and local knowledge checks. Building a road or wall changes actual
-movement, not just the artwork. Starting roads and citizen-built facilities can be
-dismantled; preset landmark buildings are not yet destructible. This is a first 2D
-editable-world foundation, not unrestricted voxel physics or arbitrary code execution.
+Matches are stored in SQLite at `.data/hackathon.db`. Deck links require the running server and the browser session that owns the match. Run one server worker; this is a local prototype, not a hosted multi-user account system. Failed rounds retain completed decisions for an unchanged retry instead of silently switching to demo mode.
 
-## Architecture
-
-```text
-Browser canvas
-    ↕ WebSocket / HTTP
-FastAPI world server
-    ├── Authoritative world simulation
-    ├── Perception and communication resolver
-    ├── Independent Agent actors and private memories
-    ├── Concurrent OpenAI Responses API calls
-    ├── Validated action executor
-    └── SQLite event store
-```
-
-The implementation follows the full [agent society design](docs/agent-society-design.md).
-
-The original pixel artwork and rendering approach are documented in [pixel visual direction](docs/pixel-visual-direction.md), including the Thronglets references and the MVP's current limits.
-
-## Test
-
-```sh
-uv run pytest
-uv run ruff check app tests
-```
-
-Optional live tests (these make real model calls when credentials are configured):
-
-```sh
-uv run python -m scripts.smoke_astra_economy
-uv run python -m scripts.smoke_astra_interventions
-uv run --with playwright python scripts/smoke_browser.py --seconds 60 --pause-after
-```
-
-The first is an explicitly seeded seven-decision company/funding/production/build/demolish integration test in a separate world, not evidence of spontaneous entrepreneurship. The browser test observes the local server at port 8001 and pauses it afterward. Event histories are persisted; restarting the server currently creates a new world rather than restoring full simulation state.
-
-The intervention test stages a fatal strike in a separate world and observes six
-unprescribed Astra decisions. To test destructive canvas tools on a disposable
-server world, run `uv run --with playwright python scripts/smoke_god_browser.py --url http://127.0.0.1:8002`.
-It kills two citizens and leaves the remaining simulation running.
-See [Thronglets intervention design](docs/thronglets-intervention-design.md) for
-episode research, perception boundaries, implemented mechanics and remaining limits.
-
-## Astra House hackathon game
-
-The ten-round sandbox hackathon game runs separately on port 8002. See [setup and gameplay instructions](docs/hackathon_simulator/RUNNING.md) and the [design planner](docs/hackathon_simulator/README.md).
+## Development
 
 ```bash
-.venv/bin/uvicorn app.hackathon.server:app --host 127.0.0.1 --port 8002
+uv run pytest -q
+uv run ruff check app/hackathon tests/test_hackathon.py
 ```
+
+The browser smoke test requires Playwright and Google Chrome on macOS, with the game running on port 8002:
+
+```bash
+uv run --with playwright python scripts/smoke_hackathon.py
+```
+
+### Project map
+
+| Path | Purpose |
+| --- | --- |
+| `app/hackathon/` | FastAPI server, model gateway, rounds, submissions, and judging |
+| `web/hackathon/` | Sandbox room, player inspectors, visual decks, and demo workspace |
+| `tests/test_hackathon.py` | Engine and API regression tests |
+| `docs/hackathon_simulator/` | Design planner, operating notes, and preset profile backups |
+
+See the [design planner](docs/hackathon_simulator/README.md), [operating notes](docs/hackathon_simulator/RUNNING.md), and [preset profile backups](docs/hackathon_simulator/preset_profiles.json) for more detail.
